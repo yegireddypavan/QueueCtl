@@ -135,6 +135,17 @@ java -jar target/queuectl-0.0.1-SNAPSHOT.jar config-set max_retries 5
 
 ## 🧪 Testing Scenarios
 
+| **Test Scenario** | **Command Example** | **Expected Result** |
+|--------------------|--------------------|---------------------|
+| ✅ **Successful Job Execution** | `enqueue '{"id":"job1","command":"echo Hello"}'` → `worker-start --count 1` | Job runs successfully and moves to `COMPLETED` |
+| ⚠️ **Failed Job with Retry** | `enqueue '{"id":"fail1","command":"invalidcmd"}'` | Job fails and retries automatically with exponential backoff |
+| 💀 **DLQ Movement** | After exceeding max retries | Job state changes to `DEAD` (moved to DLQ) |
+| ♻️ **Retry from DLQ** | `dlq-retry fail1` | Job moved back to `PENDING` for reprocessing |
+| 🧵 **Multiple Workers** | `worker-start --count 3` | Jobs processed in parallel with no duplication |
+| 🔁 **Persistence Check** | Restart app → `status` | All job records remain intact (stored in MySQL) |
+| 🕒 **Timeout Handling** | `enqueue '{"id":"t1","command":"sleep 20"}'` (with small timeout) | Job stops gracefully and is marked as failed |
+| ⚙️ **Configuration Update** | `config-set max_retries 5` | Configuration updated dynamically in DB |
+
 
 ## Example Execution Overflow
 ```bash
@@ -151,15 +162,19 @@ queuectl dlq-list
 queuectl dlq-retry fail1
 ```
 ## 🧠 Evaluation Readiness Checklist
-Evaluation Criteria |	Status
-Core features (enqueue, retry, DLQ) |	✅
-Persistent storage	| ✅
-Robust worker handling	| ✅
-Config management	| ✅
-Documentation & clarity |	✅
-No race conditions	| ✅
-Extensible architecture	| ✅
-Demo-ready	| ✅
+## 🧠 Evaluation Readiness Checklist
+
+| **Evaluation Criteria**        | **Status** |
+|--------------------------------|-------------|
+| Core features (enqueue, retry, DLQ) | ✅ |
+| Persistent storage              | ✅ |
+| Robust worker handling          | ✅ |
+| Configuration management        | ✅ |
+| Documentation & clarity         | ✅ |
+| No race conditions              | ✅ |
+| Extensible architecture         | ✅ |
+| Demo-ready                      | ✅ |
+
 
 ## 📈 Bonus Features Implemented
 
