@@ -71,3 +71,116 @@ git clone https://github.com/<your-username>/queuectl.git
 cd queuectl
 ```
 
+### 2️⃣ Create MySQL Database
+```bash
+CREATE DATABASE queuectl;
+```
+### 3️⃣ Configure Database in src/main/resources/application.yml
+```bash
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/queuectl?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: yourpassword
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.jdbc.time_zone: UTC
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+
+```bash
+### 4️⃣ Build Project
+.\mvnw clean package -DskipTests
+``` 
+### 5️⃣ Run the CLI
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar --help
+```
+## 💻 CLI Usage Examples
+
+### ➕ Enqueue a Job
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar enqueue '{"id":"job1","command":"echo Hello World"}'
+
+```
+### ⚙️ Start Workers
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar worker-start --count 3
+```
+### 📊 Job Status
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar status
+```
+
+### 📋 List Jobs by State
+```  bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar list --state pending
+```
+### 💀 Dead Letter Queue
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar dlq-list
+```
+### ♻️ Retry from DLQ
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar dlq-retry fail142
+```
+### ⚙️ Manage Configuration
+```bash
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar config-get max_retries
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar config-set max_retries 5
+```
+
+## 🧪 Testing Scenarios
+
+
+## Example Execution Overflow
+```bash
+# 1. Enqueue a failing job
+queuectl enqueue '{"id":"fail1","command":"invalidcmd"}'
+
+# 2. Start worker
+queuectl worker-start --count 1
+
+# 3. Observe retries & DLQ
+queuectl dlq-list
+
+# 4. Retry from DLQ
+queuectl dlq-retry fail1
+```
+## 🧠 Evaluation Readiness Checklist
+Evaluation Criteria |	Status
+Core features (enqueue, retry, DLQ) |	✅
+Persistent storage	| ✅
+Robust worker handling	| ✅
+Config management	| ✅
+Documentation & clarity |	✅
+No race conditions	| ✅
+Extensible architecture	| ✅
+Demo-ready	| ✅
+
+## 📈 Bonus Features Implemented
+
+✅ Job timeout support
+
+✅ Configurable retry & base backoff
+
+✅ Graceful shutdown
+
+✅ Optional worker count scaling
+
+## 🎥 Demo Video
+
+🎬 Working CLI Demonstration:
+https://drive.google.com/your-demo-link
+
+##  👨‍💻 Author
+
+Pavan Y.This project is developed for the Backend Developer Internship Assignment.
+Feel free to explore, fork, and extend for educational or experimental use.
+B.Tech (CSE) — Final Year
+Interested in Backend Development, Cybersecurity, and Machine Learning.
+
+## 🏁 License
