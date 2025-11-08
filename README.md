@@ -67,7 +67,7 @@ It manages background jobs, executes shell commands with retry policies, handles
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/<your-username>/queuectl.git
+git clone https://github.com/<yegireddypavan>/queuectl.git
 cd queuectl
 ```
 
