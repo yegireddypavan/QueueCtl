@@ -199,3 +199,5 @@ B.Tech (CSE) — Final Year
 Interested in Backend Development, Cybersecurity, and Machine Learning.
 
 ## 🏁 License
+This project is developed for the Backend Developer Internship Assignment.
+Feel free to explore, fork, and extend for educational or experimental use.
