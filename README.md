@@ -103,7 +103,7 @@ java -jar target/queuectl-0.0.1-SNAPSHOT.jar --help
 
 ### ➕ Enqueue a Job
 ```bash
-java -jar target/queuectl-0.0.1-SNAPSHOT.jar enqueue '{"id":"job1","command":"echo Hello World"}'
+java -jar target/queuectl-0.0.1-SNAPSHOT.jar enqueue --id success2 --cmd "helloo world"
 
 ```
 ### ⚙️ Start Workers
